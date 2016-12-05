@@ -30,6 +30,13 @@
     }
 }(function($, undefined){
 
+  function dispatchChangeEvent(element) {
+    var event = document.createEvent('HTMLEvents');
+    event.initEvent('change', true, true);
+
+    element.dispatchEvent(event);
+  }
+
 	function UTCDate(){
 		return new Date(Date.UTC.apply(Date, arguments));
 	}
@@ -816,6 +823,7 @@
 
 			this.fill();
 			this.element.change();
+      dispatchChangeEvent(this.element.get(0))
 			return this;
 		},
 
@@ -886,8 +894,8 @@
 				cls.push('disabled');
 			}
 			if (this.dateIsDisabled(date)){
-				cls.push('disabled', 'disabled-date');	
-			} 
+				cls.push('disabled', 'disabled-date');
+			}
 			if ($.inArray(date.getUTCDay(), this.o.daysOfWeekHighlighted) !== -1){
 				cls.push('highlighted');
 			}
@@ -1358,6 +1366,7 @@
 			}
 			if (this.inputField){
 				this.inputField.change();
+        dispatchChangeEvent(this.inputField.get(0));
 			}
 			if (this.o.autoclose && (!which || which === 'date')){
 				this.hide();
@@ -1560,6 +1569,7 @@
 					this._trigger('clearDate');
 				if (this.inputField){
 					this.inputField.change();
+          dispatchChangeEvent(this.inputField.get(0));
 				}
 			}
 		},
